@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web GIS Project</title>
+	<link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
+	<script src="https://js.arcgis.com/4.10/"></script>
+</head>
+<body>
+
+<button id = 'topo'>Topo Map</button>
+<button id = 'satellite'>Satellite Map</button>
+<button id = 'street'>Street Map</button>
+<button id = 'SceneView'>Switch to MapScene</button>
+<h2>South Dakota State University</h2>
+<div id = 'mapview' style='width:1500px; height:1000px'></div>
+
+<script> //Starter code 
+let topomap;
+let satellitemap;
+let streetmap;
+let mapview;
+require (["esri/Map", "esri/views/MapView", "esri/views/SceneView", "esri/request"], // [] takes an array , "esri/map imports maps from ESRI. 
+	function(Map,MapView,SceneView, Request)
+	{
+	topomap = new Map({basemap:"topo"}); //Map corresponds with the Map in function above. {} is an aboject = here object is basemap which is "topo"
+	satellitemap = new Map({basemap:"satellite"})
+	streetmap = new Map({basemap:"streets"})
+	
+	mapview = new MapView({container: "mapview", map: topomap, 
+			center:[-96.7848503903848, 44.31898138141475], scale:5000}); // here object is container which is mapview--this means mapview is rendered from mapview in div. 
+	//sceneview = new SceneView({container: "mapview", map: topomap, zoom:15, 
+			//center:[-96.7848503903848, 44.31898138141475], scale:10000});;
+	
+	
+	}
+	); // ends the function require 
+	
+	
+document.getElementById("topo").addEventListener("click", function ()
+	{
+	mapview.map=topomap;
+	}
+	)
+document.getElementById("satellite").addEventListener("click", function ()
+	{
+	mapview.map=satellitemap;
+	}
+	)
+document.getElementById("street").addEventListener("click", function ()
+	{
+	mapview.map=streetmap;
+	}
+	)
+
+</script>
+</body>
+</html>
