@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SDState Map</title>
+		<link rel = "stylesheet" href = "https://js.arcgis.com/4.4/esri/css/main.css">
+        <link rel="stylesheet" href="css//main.css">
+		<script src = 'https://js.arcgis.com/4.4'></script>
+
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="img//logo.jpg" alt="" />
+        </div>
+        <ul class="menu-ctn">
+            <li> Home</li>
+            <li id="menu">
+                My Campus
+                <ul id="dropdown">
+                    <li> Overview</li>
+                    <li> Buildings</li>
+                    <li>Paking Info</li>
+                    <li>Departments</li>
+                </ul>
+            </li>
+            <li> About</li>
+            <li> Contact</li>
+
+        </ul>
+    </nav>
+    <script src="js//main.js"></script>
+
+    <table>
+        <tr>
+            <td valign=top>
+                <div id='toc'>
+                </div>
+            </td>
+            <td>
+                <div id='mapview' style='width:1700px;height:1200px'>Loading SDState Map</div>
+            </td>
+        </tr>
+    </table>
+    <div id='buttons'></div>
+
+    <script>
+        let mapview;
+        let map;
+        let layer;
+        //second commit
+        require(["esri/Map",
+            "esri/views/MapView",
+            "esri/request",
+            "esri/layers/MapImageLayer",
+            "esri/widgets/Legend",
+            "esri/widgets/Search"],
+
+            function (Map,
+                MapView,
+                Request,
+                MapLayer,
+                Legend,
+                Search) {
+                generateBasemaps();
+                map = new Map({ basemap: "streets" })
+                let viewoptions = {
+                    container: "mapview", map: map,
+                    center: [-96.7848503903848, 44.31698138141480], scale: 13300
+                }
+                mapview = new MapView(viewoptions);
+
+                let legend = new Legend({ view: mapview });
+                mapview.ui.add(legend, "bottom-left");
+
+                let search = new Search({ view: mapview });
+                mapview.ui.add(search, "top-right");
+            });
+
+        //Generate list of buttons for basemaps
+        function generateBasemaps() {
+            let basemaps = [];
+            //"streets", "satellite", "hybrid", "terrain", "topo", "gray", "dark-gray", "oceans", "national-geographic", "osm", "dark-gray-vector", "gray-vector", "streets-vector", "topo-vector", "streets-night-vector", "streets-relief-vector", "streets-navigation-vector"
+            basemaps.push("satellite");
+            basemaps.push("topo");
+            basemaps.push("osm");
+            basemaps.push("streets-night-vector");
+            //let setBasemap = function (e) { map.basemap = e.target.id }
+            let setBasemap = e => map.basemap = e.target.id;
+            for (let i = 0; i < basemaps.length; i++) {
+                let buttons = document.getElementById("buttons");
+                let button = document.createElement("button");
+                button.id = basemaps[i];
+                button.textContent = basemaps[i];
+                button.addEventListener("click", setBasemap)
+                buttons.appendChild(button);
+            }
+        }
+    </script>
+</body>
+</html>
